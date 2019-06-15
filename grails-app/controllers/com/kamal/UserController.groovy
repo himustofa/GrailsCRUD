@@ -1,6 +1,5 @@
 package com.kamal
 
-//http://localhost/phpmyadmin
 class UserController {
 
     UserService userService

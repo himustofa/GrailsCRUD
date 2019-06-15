@@ -108,7 +108,6 @@
             }
         } );
     }
-
     // ==================== Sweet Alert ====================
     function savedFunction() {
         swal({
@@ -123,12 +122,10 @@
             //swal("Deleted!", "This record is deleted.", "success");
         });
     };
-
     //Tooltips
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
-
     // ==================== DataTable ====================
     $(document).ready(function() {
         $('#UserTable').DataTable({
@@ -152,25 +149,21 @@
             },
         });
     });
-
     // ==================== Add Row ====================
     $(document).on('click', '.btn-user-modal', function(event) {
         event.preventDefault();
         $("tr").removeClass("current-row");
-
         $("#modal-user :input").val("");
         //$("#password").attr('type','password');
         $("#password").show();
         $('#update').hide();
         $('#save').show();
-
         //Disable enter button
         $('html').bind('keypress', function(e) {
             if (e.keyCode == 13) {
                 return false;
             }
         });
-
         $('#modal-user').iziModal('open');
     });
     //Add iziModal
@@ -187,31 +180,52 @@
     });
     $( document ).ready( function() {
         $( "#save" ).click( function ( event ){
+            var last = $('#lastName').val();
+            var email = $('#email').val();
+            var pass = $('#password').val();
+
+            if(email== ''){
+                swal("Warning!", "Email is empty.", "warning");
+                //$('#email').next().show();
+                return false;
+            }
+            if(pass== ''){
+                swal("Warning!", "Password is empty.", "warning");
+                //$('#password').next().show();
+                return false;
+            }
+            if(IsEmail(email)==false){
+                swal("Warning!", "Invalid email.", "warning");
+                //$('#invalid_email').show();
+                return false;
+            }
             ajaxFunction('saveData');
         });
+        return false;
     });
-
-
-
-
+    function IsEmail(email) {
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(!regex.test(email)) {
+            return false;
+        }else{
+            return true;
+        }
+    }
     // ==================== Edit Row ====================
     function editRow(el) {
         var currentRow = $(el).closest("tr");
         $("tr").removeClass("current-row");
         currentRow.addClass("current-row");
-
         //$("#modal_degree").addClass("required");
         //$("#password").attr('type','hidden');
         $("#password").hide();
         $('#update').show();
         $('#save').hide();
-
         $("#id").val(currentRow.find(".id").val());
         $("#firstName").val(currentRow.find(".firstName").val());
         $("#lastName").val(currentRow.find(".lastName").val());
         $("#email").val(currentRow.find(".email").val());
         $("#password").val(currentRow.find(".password").val());
-
         $("#modal-user .alert").addClass("hidden"); //Hide the modal alert when the edit modal appears
         $('#modal-user').iziModal('open');
     }
@@ -220,7 +234,6 @@
             ajaxFunction('updateDataById');
         });
     });
-
     // ==================== Delete Button ====================
     var delRow = function(el) {
         swal({
